@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,5 +33,11 @@ public class UsersControllerIntegrationTest {
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.username").value("username"))
                 .andExpect(jsonPath("$.email").value("test@example.com"));
+    }
+
+    @Test
+    void getUsers() throws Exception {
+        mockMvc.perform(get("/users"))
+                .andExpect(status().isOk());
     }
 }
