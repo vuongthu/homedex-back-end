@@ -5,10 +5,13 @@ import com.homedex.dao.entities.UserEntity;
 import com.homedex.users.models.User;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.StreamSupport;
 
 @Service
+@Transactional
 public class UsersService {
     private final UserDao userDao;
 
@@ -18,11 +21,24 @@ public class UsersService {
 
     public User createUser(String username, String email) {
         UserEntity userEntity = userDao.save(UserEntity.builder().username(username).email(email).build());
-        return new User(userEntity.getId(), userEntity.getUsername(), userEntity.getEmail());
+        return mapToUser(userEntity);
     }
 
     public List<User> getUsers() {
         return StreamSupport.stream(userDao.findAll().spliterator(), true)
-                .map((entity) -> new User(entity.getId(), entity.getUsername(), entity.getEmail())).toList();
+                .map(this::mapToUser).toList();
+    }
+
+    public User getUserById(UUID userId) {
+        UserEntity entity = userDao.findById(userId).orElseThrow();
+        return mapToUser(entity);
+    }
+
+    private User mapToUser(UserEntity entity) {
+        return new User(entity.getId(), entity.getUsername(), entity.getEmail());
+    }
+
+    public void deleteUser(UUID userId) {
+        userDao.deleteById(userId);
     }
 }
