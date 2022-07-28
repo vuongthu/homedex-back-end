@@ -62,9 +62,22 @@ public class HouseholdsControllerIntegrationTest {
                 .andExpect(jsonPath("$.[*]").isEmpty());
     }
 
+    @Test
+    void updateHouseholdName() throws Exception {
+        Household household = createHouseholdHelper();
+        HouseholdRequest request = new HouseholdRequest("We Bare Bears");
+        mockMvc.perform(patch("/households/{id}", household.id()).contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(request)))
+                .andExpect(status().isNoContent());
+
+        mockMvc.perform(get("/households/{id}", household.id()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(household.id().toString()))
+                .andExpect(jsonPath("$.name").value("We Bare Bears"));
+    }
+
     private Household createHouseholdHelper() throws Exception {
-        HouseholdRequest household = new HouseholdRequest("Bear Family");
-        MvcResult mvcResult = mockMvc.perform(post("/households").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(household)))
+        HouseholdRequest request = new HouseholdRequest("Bear Family");
+        MvcResult mvcResult = mockMvc.perform(post("/households").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.name").value("Bear Family"))

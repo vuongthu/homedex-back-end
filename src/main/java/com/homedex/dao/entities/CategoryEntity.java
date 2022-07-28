@@ -14,13 +14,18 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "households")
-public class HouseholdEntity implements Serializable {
+@Entity(name = "categories")
+public class CategoryEntity implements Serializable {
     @Id
     @GeneratedValue
     private UUID id;
     private String name;
-    @OneToMany
+
+    @ManyToOne
     @JoinColumn(name = "fk_households_id")
-    private Set<CategoryEntity> categoryEntities;
+    private HouseholdEntity householdEntity;
+
+    @OneToMany
+    @JoinColumn(name = "fk_categories_id")
+    private Set<ItemEntity> itemEntities;
 }

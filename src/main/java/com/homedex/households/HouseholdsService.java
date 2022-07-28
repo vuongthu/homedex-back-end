@@ -41,4 +41,10 @@ public class HouseholdsService {
     public void deleteHousehold(UUID householdId) {
         householdDao.deleteById(householdId);
     }
+
+    public void updateHouseholdName(String name, UUID householdId) {
+        HouseholdEntity entity = householdDao.findById(householdId).orElseThrow();
+        entity.setName(name);
+        householdDao.save(entity);
+    }
 }

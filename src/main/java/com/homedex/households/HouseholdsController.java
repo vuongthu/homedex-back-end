@@ -38,5 +38,11 @@ public class HouseholdsController {
         householdsService.deleteHousehold(householdId);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("{household-id}")
+    public ResponseEntity<Void> patchHouseholdName(@RequestBody HouseholdRequest request, @PathVariable("household-id") UUID householdId) {
+        householdsService.updateHouseholdName(request.name(), householdId);
+        return ResponseEntity.noContent().build();
+    }
 }
 
