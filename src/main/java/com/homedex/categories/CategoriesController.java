@@ -65,4 +65,10 @@ public class CategoriesController {
     public ResponseEntity<List<Item>> getItems(@PathVariable("category-id") UUID categoryId) {
         return ResponseEntity.status(HttpStatus.OK).body(itemsService.getItems(categoryId));
     }
+
+    @DeleteMapping("{category-id}/items/{item-id}")
+    public ResponseEntity<Void> deleteItem(@PathVariable("item-id") UUID itemId) {
+        itemsService.deleteItem(itemId);
+        return ResponseEntity.noContent().build();
+    }
 }

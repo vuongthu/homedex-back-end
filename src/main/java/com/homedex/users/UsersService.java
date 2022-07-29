@@ -41,4 +41,11 @@ public class UsersService {
     public void deleteUser(UUID userId) {
         userDao.deleteById(userId);
     }
+
+    public void updateUserInfo(String username, String email, UUID userId) {
+        UserEntity entity = userDao.findById(userId).orElseThrow();
+        entity.setUsername(username);
+        entity.setEmail(email);
+        userDao.save(entity);
+    }
 }

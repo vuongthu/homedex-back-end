@@ -127,6 +127,18 @@ class CategoriesControllerIntegrationTest {
 
     }
 
+    @Test
+    void deleteItem() throws Exception {
+        Category category = createCategoryHelper();
+        Item item = createItemHelper(category.id().toString());
+        mockMvc.perform(delete("/categories/{category-id}/items/{item-id}", category.id(), item.id()))
+                .andExpect(status().isNoContent());
+
+        mockMvc.perform(get("/categories/{category-id}/items", category.id()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[*]").isEmpty());
+    }
+
     private Item createItemHelper(String categoryId) throws Exception {
         if (categoryId == null) {
             categoryId = createCategoryHelper().id().toString();

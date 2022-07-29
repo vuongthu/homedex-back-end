@@ -63,6 +63,16 @@ public class UsersControllerIntegrationTest {
                 .andExpect(jsonPath("$.[*]").isEmpty());
     }
 
+    @Test
+    void patchUser() throws Exception {
+        User user = createUserHelper();
+        UserRequest userRequest = new UserRequest("fpham", "fpham@example.com");
+        mockMvc.perform(patch("/users/{id}", user.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(userRequest))
+        ).andExpect(status().isNoContent());
+    }
+
     private User createUserHelper() throws Exception {
         UserRequest user = new UserRequest("username", "test@example.com");
         MvcResult mvcResult = mockMvc.perform(post("/users").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)))

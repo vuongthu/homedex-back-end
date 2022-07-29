@@ -38,5 +38,11 @@ public class UsersController {
         usersService.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("{user-id}")
+    public ResponseEntity<Void> updateUserInfo(@RequestBody UserRequest request, @PathVariable("user-id") UUID userId) {
+        usersService.updateUserInfo(request.username(), request.email(), userId);
+        return ResponseEntity.noContent().build();
+    }
 }
 

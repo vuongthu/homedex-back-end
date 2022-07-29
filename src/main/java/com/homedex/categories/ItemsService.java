@@ -39,4 +39,8 @@ public class ItemsService {
                 .map(this::mapToItem)
                 .toList();
     }
+
+    public void deleteItem(UUID itemId) {
+        itemDao.deleteById(itemId);
+    }
 }
