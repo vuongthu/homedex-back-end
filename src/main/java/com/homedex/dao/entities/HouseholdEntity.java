@@ -14,7 +14,8 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "households")
+@Entity
+@Table(name = "households")
 public class HouseholdEntity implements Serializable {
     @Id
     @GeneratedValue
@@ -23,4 +24,11 @@ public class HouseholdEntity implements Serializable {
     @OneToMany
     @JoinColumn(name = "fk_households_id")
     private Set<CategoryEntity> categoryEntities;
+    @ManyToMany
+    @JoinTable(
+            name = "user_household_mappings",
+            joinColumns = {@JoinColumn(name = "fk_households_id")},
+            inverseJoinColumns = {@JoinColumn(name = "fk_users_id")}
+    )
+    private Set<UserEntity> userEntities;
 }

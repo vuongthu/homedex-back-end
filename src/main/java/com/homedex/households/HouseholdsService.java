@@ -1,12 +1,15 @@
 package com.homedex.households;
 
 import com.homedex.dao.HouseholdDao;
+import com.homedex.dao.UserDao;
 import com.homedex.dao.entities.HouseholdEntity;
+import com.homedex.dao.entities.UserEntity;
 import com.homedex.households.models.Household;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.StreamSupport;
 
@@ -14,13 +17,16 @@ import java.util.stream.StreamSupport;
 @Transactional
 public class HouseholdsService {
     private final HouseholdDao householdDao;
+    private final UserDao userDao;
 
-    public HouseholdsService(HouseholdDao householdDao) {
+    public HouseholdsService(HouseholdDao householdDao, UserDao userDao) {
         this.householdDao = householdDao;
+        this.userDao = userDao;
     }
 
-    public Household createHousehold(String name) {
-        HouseholdEntity householdEntity = householdDao.save(HouseholdEntity.builder().name(name).build());
+    public Household createHousehold(String name, UUID userId) {
+        UserEntity userEntity = userDao.findById(userId).orElseThrow();
+        HouseholdEntity householdEntity = householdDao.save(HouseholdEntity.builder().name(name).userEntities(Set.of(userEntity)).build());
         return mapToUser(householdEntity);
     }
 
@@ -46,5 +52,10 @@ public class HouseholdsService {
         HouseholdEntity entity = householdDao.findById(householdId).orElseThrow();
         entity.setName(name);
         householdDao.save(entity);
+    }
+
+    public List<String> getHouseholdsForUser(UUID userId) {
+        return householdDao.findHouseholdEntitiesByUserEntitiesId(userId).stream()
+                .map(householdEntity -> householdEntity.getId().toString()).toList();
     }
 }

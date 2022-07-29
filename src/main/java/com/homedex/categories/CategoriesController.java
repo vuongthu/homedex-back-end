@@ -60,4 +60,9 @@ public class CategoriesController {
     public ResponseEntity<Item> createItem(@RequestBody ItemRequest request, @PathVariable("category-id") UUID categoryId) {
         return ResponseEntity.status(HttpStatus.CREATED).body(itemsService.createItem(request.name(), request.measurement(), request.brand(), request.addInfo(), request.expiration(), categoryId));
     }
+
+    @GetMapping("{category-id}/items")
+    public ResponseEntity<List<Item>> getItems(@PathVariable("category-id") UUID categoryId) {
+        return ResponseEntity.status(HttpStatus.OK).body(itemsService.getItems(categoryId));
+    }
 }

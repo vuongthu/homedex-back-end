@@ -25,14 +25,12 @@ create table categories (
     FOREIGN KEY (fk_households_id) REFERENCES households(id)
 );
 
-create type measurement_type as enum ('quantity', 'scale');
-
 create table items (
     id uuid not null default gen_random_uuid() PRIMARY KEY,
     name text not null,
-    measurement measurement_type not null,
+    measurement text not null,
     brand text not null,
-    add_info text not null,
+    add_info text,
     expiration timestamp,
     fk_categories_id uuid not null,
     FOREIGN KEY (fk_categories_id) REFERENCES categories(id)

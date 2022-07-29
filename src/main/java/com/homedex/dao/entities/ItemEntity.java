@@ -23,7 +23,8 @@ public class ItemEntity implements Serializable {
     private String brand;
     @Column(name = "add_info")
     private String addInfo;
-    private String measurement;
+    @Enumerated(EnumType.ORDINAL)
+    private Measurement measurement;
     private LocalDateTime expiration;
 
     @ManyToOne
