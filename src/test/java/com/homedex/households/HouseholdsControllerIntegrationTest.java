@@ -77,7 +77,9 @@ public class HouseholdsControllerIntegrationTest {
     void updateHouseholdName() throws Exception {
         Household household = createHouseholdHelper();
         HouseholdRequest request = new HouseholdRequest("We Bare Bears");
-        mockMvc.perform(patch("/households/{id}", household.id()).contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(request)))
+        mockMvc.perform(patch("/households/{id}", household.id())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(request)))
                 .andExpect(status().isNoContent());
 
         mockMvc.perform(get("/households/{id}", household.id()))

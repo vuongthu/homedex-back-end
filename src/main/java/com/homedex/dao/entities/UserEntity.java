@@ -22,6 +22,6 @@ public class UserEntity implements Serializable {
     private UUID id;
     private String username;
     private String email;
-    @ManyToMany(mappedBy = "userEntities", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "userEntities", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Set<HouseholdEntity> householdEntities;
 }

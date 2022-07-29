@@ -8,6 +8,7 @@ import com.homedex.households.models.Household;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -26,7 +27,9 @@ public class HouseholdsService {
 
     public Household createHousehold(String name, UUID userId) {
         UserEntity userEntity = userDao.findById(userId).orElseThrow();
-        HouseholdEntity householdEntity = householdDao.save(HouseholdEntity.builder().name(name).userEntities(Set.of(userEntity)).build());
+        Set<UserEntity> userEntities = new HashSet<>();
+        userEntities.add(userEntity);
+        HouseholdEntity householdEntity = householdDao.save(HouseholdEntity.builder().name(name).userEntities(userEntities).build());
         return mapToUser(householdEntity);
     }
 
