@@ -1,16 +1,17 @@
 package com.homedex.dao.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,6 +24,7 @@ public class HouseholdEntity implements Serializable {
     private String name;
     @OneToMany
     @JoinColumn(name = "fk_households_id")
+    @ToString.Exclude
     private Set<CategoryEntity> categoryEntities;
     @ManyToMany
     @JoinTable(
@@ -30,5 +32,19 @@ public class HouseholdEntity implements Serializable {
             joinColumns = {@JoinColumn(name = "fk_households_id")},
             inverseJoinColumns = {@JoinColumn(name = "fk_users_id")}
     )
+    @ToString.Exclude
     private Set<UserEntity> userEntities;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        HouseholdEntity that = (HouseholdEntity) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
