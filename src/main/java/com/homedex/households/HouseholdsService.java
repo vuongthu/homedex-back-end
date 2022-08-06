@@ -30,20 +30,20 @@ public class HouseholdsService {
         Set<UserEntity> userEntities = new HashSet<>();
         userEntities.add(userEntity);
         HouseholdEntity householdEntity = householdDao.save(HouseholdEntity.builder().name(name).userEntities(userEntities).build());
-        return mapToUser(householdEntity);
+        return mapToHousehold(householdEntity);
     }
 
     public List<Household> getHouseholds() {
         return StreamSupport.stream(householdDao.findAll().spliterator(), true)
-                .map(this::mapToUser).toList();
+                .map(this::mapToHousehold).toList();
     }
 
     public Household getHouseholdById(UUID householdId) {
         HouseholdEntity entity = householdDao.findById(householdId).orElseThrow();
-        return mapToUser(entity);
+        return mapToHousehold(entity);
     }
 
-    private Household mapToUser(HouseholdEntity entity) {
+    private Household mapToHousehold(HouseholdEntity entity) {
         return new Household(entity.getId(), entity.getName());
     }
 
@@ -57,8 +57,8 @@ public class HouseholdsService {
         householdDao.save(entity);
     }
 
-    public List<String> getHouseholdsForUser(UUID userId) {
+    public List<Household> getHouseholdsForUser(UUID userId) {
         return householdDao.findHouseholdEntitiesByUserEntitiesId(userId).stream()
-                .map(householdEntity -> householdEntity.getId().toString()).toList();
+                .map(this::mapToHousehold).toList();
     }
 }

@@ -27,6 +27,7 @@ public class ItemEntity implements Serializable {
     @Enumerated(EnumType.ORDINAL)
     private Measurement measurement;
     private LocalDateTime expiration;
+    private Long unit;
 
     @ManyToOne
     @JoinColumn(name = "fk_categories_id")

@@ -24,14 +24,14 @@ public class ItemsService {
         this.itemDao = itemDao;
     }
 
-    public Item createItem(String name, String measurement, String brand, String addInfo, LocalDateTime expiration, UUID categoryId) {
+    public Item createItem(String name, String measurement, String brand, String addInfo, LocalDateTime expiration, Long unit, UUID categoryId) {
         CategoryEntity entity = categoryDao.findById(categoryId).orElseThrow();
-        ItemEntity itemEntity = ItemEntity.builder().name(name).measurement(Measurement.valueOf(measurement)).brand(brand).addInfo(addInfo).expiration(expiration).categoryEntity(entity).build();
+        ItemEntity itemEntity = ItemEntity.builder().name(name).measurement(Measurement.valueOf(measurement.trim().toUpperCase())).brand(brand).addInfo(addInfo).expiration(expiration).categoryEntity(entity).unit(unit).build();
         return mapToItem(itemDao.save(itemEntity));
     }
 
     private Item mapToItem(ItemEntity entity) {
-        return new Item(entity.getId(), entity.getName(), entity.getMeasurement().toString(), entity.getBrand(), entity.getAddInfo(), entity.getExpiration());
+        return new Item(entity.getId(), entity.getName(), entity.getMeasurement().toString(), entity.getBrand(), entity.getAddInfo(), entity.getExpiration(), entity.getUnit());
     }
 
     public List<Item> getItems(UUID categoryId) {

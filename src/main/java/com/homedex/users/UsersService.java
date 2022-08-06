@@ -48,4 +48,9 @@ public class UsersService {
         entity.setEmail(email);
         userDao.save(entity);
     }
+
+    public User findUser(String username, String password) {
+        UserEntity entity = userDao.findByEmailOrUsername(username, username);
+        return mapToUser(entity);
+    }
 }

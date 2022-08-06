@@ -47,7 +47,7 @@ public class HouseholdsController {
 
     // Household to User Mappings
     @GetMapping("/mappings")
-    public ResponseEntity<List<String>> getHouseholdsForUser(@RequestParam("user-id") UUID userId) {
+    public ResponseEntity<List<Household>> getHouseholdsForUser(@RequestParam("user-id") UUID userId) {
         return ResponseEntity.status(HttpStatus.OK).body(householdsService.getHouseholdsForUser(userId));
     }
 }

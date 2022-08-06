@@ -1,5 +1,6 @@
 package com.homedex.users;
 
+import com.homedex.users.models.LoginRequest;
 import com.homedex.users.models.User;
 import com.homedex.users.models.UserRequest;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,11 @@ public class UsersController {
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody UserRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(usersService.createUser(request.username(), request.email()));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<User> loginUser(@RequestBody LoginRequest request) {
+        return ResponseEntity.status(HttpStatus.OK).body(usersService.findUser(request.username(), request.password()));
     }
 
     @GetMapping
