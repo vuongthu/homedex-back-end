@@ -16,6 +16,8 @@ import java.util.UUID;
 public class CategoriesController {
 
     private static final String HOUSEHOLD_ID_PARAM = "household-id";
+    private static final String CATEGORY_ID_PARAM = "category-id";
+    private static final String ITEM_ID_PARAM = "item-id";
     private final CategoriesService categoriesService;
     private final ItemsService itemsService;
 
@@ -38,18 +40,18 @@ public class CategoriesController {
     }
 
     @GetMapping("{category-id}")
-    public ResponseEntity<Category> getCategory(@PathVariable("category-id") UUID categoryId) {
+    public ResponseEntity<Category> getCategory(@PathVariable(CATEGORY_ID_PARAM) UUID categoryId) {
         return ResponseEntity.status(HttpStatus.OK).body(categoriesService.getCategory(categoryId));
     }
 
     @DeleteMapping("{category-id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable("category-id") UUID categoryId) {
+    public ResponseEntity<Void> deleteCategory(@PathVariable(CATEGORY_ID_PARAM) UUID categoryId) {
         categoriesService.deleteCategory(categoryId);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("{category-id}")
-    public ResponseEntity<Void> updateCategoryName(@RequestBody CategoryRequest request, @PathVariable("category-id") UUID categoryId) {
+    public ResponseEntity<Void> updateCategoryName(@RequestBody CategoryRequest request, @PathVariable(CATEGORY_ID_PARAM) UUID categoryId) {
         categoriesService.updateCategoryName(request.name(), categoryId);
         return ResponseEntity.noContent().build();
     }
@@ -57,17 +59,29 @@ public class CategoriesController {
     // Items
 
     @PostMapping("{category-id}/items")
-    public ResponseEntity<Item> createItem(@RequestBody ItemRequest request, @PathVariable("category-id") UUID categoryId) {
+    public ResponseEntity<Item> createItem(@RequestBody ItemRequest request, @PathVariable(CATEGORY_ID_PARAM) UUID categoryId) {
         return ResponseEntity.status(HttpStatus.CREATED).body(itemsService.createItem(request.name(), request.measurement(), request.brand(), request.addInfo(), request.expiration(), request.unit(), categoryId));
     }
 
     @GetMapping("{category-id}/items")
-    public ResponseEntity<List<Item>> getItems(@PathVariable("category-id") UUID categoryId) {
+    public ResponseEntity<List<Item>> getItems(@PathVariable(CATEGORY_ID_PARAM) UUID categoryId) {
         return ResponseEntity.status(HttpStatus.OK).body(itemsService.getItems(categoryId));
     }
 
+    @PutMapping("{category-id}/items/{item-id}")
+    public ResponseEntity<Item> updateItem(
+            @RequestBody ItemRequest request,
+            @PathVariable(CATEGORY_ID_PARAM) UUID categoryId,
+            @PathVariable(ITEM_ID_PARAM) UUID itemId
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(itemsService.updateItem(request.name(), request.measurement(), request.brand(), request.addInfo(), request.expiration(), request.unit(), itemId));
+    }
+
     @DeleteMapping("{category-id}/items/{item-id}")
-    public ResponseEntity<Void> deleteItem(@PathVariable("item-id") UUID itemId) {
+    public ResponseEntity<Void> deleteItem(
+            @PathVariable(CATEGORY_ID_PARAM) UUID categoryId,
+            @PathVariable(ITEM_ID_PARAM) UUID itemId
+    ) {
         itemsService.deleteItem(itemId);
         return ResponseEntity.noContent().build();
     }

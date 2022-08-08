@@ -30,6 +30,17 @@ public class ItemsService {
         return mapToItem(itemDao.save(itemEntity));
     }
 
+    public Item updateItem(String name, String measurement, String brand, String addInfo, LocalDateTime expiration, Long unit, UUID itemId) {
+        ItemEntity itemEntity = itemDao.findById(itemId).orElseThrow();
+        itemEntity.setName(name);
+        itemEntity.setMeasurement(Measurement.valueOf(measurement.trim().toUpperCase()));
+        itemEntity.setBrand(brand);
+        itemEntity.setAddInfo(addInfo);
+        itemEntity.setExpiration(expiration);
+        itemEntity.setUnit(unit);
+        return mapToItem(itemDao.save(itemEntity));
+    }
+
     private Item mapToItem(ItemEntity entity) {
         return new Item(entity.getId(), entity.getName(), entity.getMeasurement().toString(), entity.getBrand(), entity.getAddInfo(), entity.getExpiration(), entity.getUnit());
     }
