@@ -51,9 +51,9 @@ public class CategoriesController {
     }
 
     @PatchMapping("{category-id}")
-    public ResponseEntity<Void> updateCategoryName(@RequestBody CategoryRequest request, @PathVariable(CATEGORY_ID_PARAM) UUID categoryId) {
+    public ResponseEntity<Category> updateCategoryName(@RequestBody CategoryRequest request, @PathVariable(CATEGORY_ID_PARAM) UUID categoryId) {
         categoriesService.updateCategoryName(request.name(), categoryId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.OK).body(categoriesService.getCategory(categoryId));
     }
 
     // Items

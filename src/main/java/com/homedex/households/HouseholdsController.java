@@ -40,9 +40,9 @@ public class HouseholdsController {
     }
 
     @PatchMapping("{household-id}")
-    public ResponseEntity<Void> patchHouseholdName(@RequestBody HouseholdRequest request, @PathVariable("household-id") UUID householdId) {
+    public ResponseEntity<Household> patchHouseholdName(@RequestBody HouseholdRequest request, @PathVariable("household-id") UUID householdId) {
         householdsService.updateHouseholdName(request.name(), householdId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.OK).body(householdsService.getHouseholdById(householdId));
     }
 
     // Household to User Mappings
