@@ -1,5 +1,6 @@
 package com.homedex.households;
 
+import com.homedex.categories.models.Item;
 import com.homedex.households.models.Household;
 import com.homedex.households.models.HouseholdRequest;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,11 @@ public class HouseholdsController {
     public ResponseEntity<Household> patchHouseholdName(@RequestBody HouseholdRequest request, @PathVariable("household-id") UUID householdId) {
         householdsService.updateHouseholdName(request.name(), householdId);
         return ResponseEntity.status(HttpStatus.OK).body(householdsService.getHouseholdById(householdId));
+    }
+
+    @GetMapping("{household-id}/items")
+    public ResponseEntity<List<Item>> getLikedItemsByHousehold(@PathVariable("household-id") UUID householdId) {
+        return ResponseEntity.status(HttpStatus.OK).body(householdsService.getLikedItemsByHousehold(householdId));
     }
 
     // Household to User Mappings

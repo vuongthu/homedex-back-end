@@ -85,4 +85,13 @@ public class CategoriesController {
         itemsService.deleteItem(itemId);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("{category-id}/items/{item-id}/like")
+    public ResponseEntity<Void> likeItem(
+            @PathVariable(CATEGORY_ID_PARAM) UUID categoryId,
+            @PathVariable(ITEM_ID_PARAM) UUID itemId
+    ) {
+        itemsService.toggleLikeItem(itemId);
+        return ResponseEntity.noContent().build();
+    }
 }

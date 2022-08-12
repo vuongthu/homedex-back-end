@@ -1,6 +1,9 @@
 package com.homedex.households;
 
+import com.homedex.categories.ItemsService;
+import com.homedex.categories.models.Item;
 import com.homedex.dao.HouseholdDao;
+import com.homedex.dao.ItemDao;
 import com.homedex.dao.UserDao;
 import com.homedex.dao.entities.HouseholdEntity;
 import com.homedex.dao.entities.UserEntity;
@@ -19,10 +22,12 @@ import java.util.stream.StreamSupport;
 public class HouseholdsService {
     private final HouseholdDao householdDao;
     private final UserDao userDao;
+    private final ItemDao itemDao;
 
-    public HouseholdsService(HouseholdDao householdDao, UserDao userDao) {
+    public HouseholdsService(HouseholdDao householdDao, UserDao userDao, ItemDao itemDao) {
         this.householdDao = householdDao;
         this.userDao = userDao;
+        this.itemDao = itemDao;
     }
 
     public Household createHousehold(String name, UUID userId) {
@@ -60,5 +65,11 @@ public class HouseholdsService {
     public List<Household> getHouseholdsForUser(UUID userId) {
         return householdDao.findHouseholdEntitiesByUserEntitiesId(userId).stream()
                 .map(this::mapToHousehold).toList();
+    }
+
+    public List<Item> getLikedItemsByHousehold(UUID householdId) {
+        return itemDao.findAllByCategoryEntity_HouseholdEntity_IdAndLikedOrderByNameAsc(householdId, true).stream()
+                .map(ItemsService::mapToItem)
+                .toList();
     }
 }

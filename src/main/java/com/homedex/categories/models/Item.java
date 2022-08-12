@@ -10,6 +10,7 @@ public record Item(
         String brand,
         String addInfo,
         LocalDateTime expiration,
-        Long unit
+        Long unit,
+        Boolean liked
 ) {
 }

@@ -41,17 +41,23 @@ public class ItemsService {
         return mapToItem(itemDao.save(itemEntity));
     }
 
-    private Item mapToItem(ItemEntity entity) {
-        return new Item(entity.getId(), entity.getName(), entity.getMeasurement().toString(), entity.getBrand(), entity.getAddInfo(), entity.getExpiration(), entity.getUnit());
+    public static Item mapToItem(ItemEntity entity) {
+        return new Item(entity.getId(), entity.getName(), entity.getMeasurement().toString(), entity.getBrand(), entity.getAddInfo(), entity.getExpiration(), entity.getUnit(), entity.getLiked());
     }
 
     public List<Item> getItems(UUID categoryId) {
-        return itemDao.findAllByCategoryEntityId(categoryId).stream()
-                .map(this::mapToItem)
+        return itemDao.findAllByCategoryEntityIdOrderByNameAsc(categoryId).stream()
+                .map(ItemsService::mapToItem)
                 .toList();
     }
 
     public void deleteItem(UUID itemId) {
         itemDao.deleteById(itemId);
+    }
+
+    public void toggleLikeItem(UUID itemId) {
+        ItemEntity item = itemDao.findById(itemId).orElseThrow();
+        item.setLiked(!item.getLiked());
+        itemDao.save(item);
     }
 }

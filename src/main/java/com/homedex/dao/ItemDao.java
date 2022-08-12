@@ -10,5 +10,7 @@ import java.util.UUID;
 @Repository
 public interface ItemDao extends CrudRepository<ItemEntity, UUID> {
 
-    List<ItemEntity> findAllByCategoryEntityId(UUID categoryId);
+    List<ItemEntity> findAllByCategoryEntityIdOrderByNameAsc(UUID categoryId);
+
+    List<ItemEntity> findAllByCategoryEntity_HouseholdEntity_IdAndLikedOrderByNameAsc(UUID householdId, Boolean liked);
 }

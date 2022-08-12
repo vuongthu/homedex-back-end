@@ -28,6 +28,7 @@ public class ItemEntity implements Serializable {
     private Measurement measurement;
     private LocalDateTime expiration;
     private Long unit;
+    private Boolean liked;
 
     @ManyToOne
     @JoinColumn(name = "fk_categories_id")
