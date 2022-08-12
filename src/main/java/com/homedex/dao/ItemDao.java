@@ -13,4 +13,6 @@ public interface ItemDao extends CrudRepository<ItemEntity, UUID> {
     List<ItemEntity> findAllByCategoryEntityIdOrderByNameAsc(UUID categoryId);
 
     List<ItemEntity> findAllByCategoryEntity_HouseholdEntity_IdAndLikedOrderByNameAsc(UUID householdId, Boolean liked);
+
+    List<ItemEntity> findAllByCategoryEntity_HouseholdEntity_IdAndPurchaseOrderByNameAsc(UUID householdId, Boolean purchase);
 }

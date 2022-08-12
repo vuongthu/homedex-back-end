@@ -94,4 +94,13 @@ public class CategoriesController {
         itemsService.toggleLikeItem(itemId);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("{category-id}/items/{item-id}/purchase")
+    public ResponseEntity<Void> purchaseItem(
+            @PathVariable(CATEGORY_ID_PARAM) UUID categoryId,
+            @PathVariable(ITEM_ID_PARAM) UUID itemId
+    ) {
+        itemsService.togglePurchaseItem(itemId);
+        return ResponseEntity.noContent().build();
+    }
 }

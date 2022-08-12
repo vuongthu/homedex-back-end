@@ -72,4 +72,10 @@ public class HouseholdsService {
                 .map(ItemsService::mapToItem)
                 .toList();
     }
+
+    public List<Item> getItemsToPurchaseByHousehold(UUID householdId) {
+        return itemDao.findAllByCategoryEntity_HouseholdEntity_IdAndPurchaseOrderByNameAsc(householdId, true).stream()
+                .map(ItemsService::mapToItem)
+                .toList();
+    }
 }

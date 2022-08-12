@@ -42,7 +42,7 @@ public class ItemsService {
     }
 
     public static Item mapToItem(ItemEntity entity) {
-        return new Item(entity.getId(), entity.getName(), entity.getMeasurement().toString(), entity.getBrand(), entity.getAddInfo(), entity.getExpiration(), entity.getUnit(), entity.getLiked());
+        return new Item(entity.getId(), entity.getName(), entity.getMeasurement().toString(), entity.getBrand(), entity.getAddInfo(), entity.getExpiration(), entity.getUnit(), entity.getLiked(), entity.getPurchase());
     }
 
     public List<Item> getItems(UUID categoryId) {
@@ -60,4 +60,11 @@ public class ItemsService {
         item.setLiked(!item.getLiked());
         itemDao.save(item);
     }
+
+    public void togglePurchaseItem(UUID itemId) {
+        ItemEntity item = itemDao.findById(itemId).orElseThrow();
+        item.setPurchase(!item.getPurchase());
+        itemDao.save(item);
+    }
+
 }

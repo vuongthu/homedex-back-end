@@ -11,6 +11,7 @@ public record Item(
         String addInfo,
         LocalDateTime expiration,
         Long unit,
-        Boolean liked
+        Boolean liked,
+        Boolean purchase
 ) {
 }

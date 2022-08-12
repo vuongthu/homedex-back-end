@@ -46,9 +46,9 @@ public class UsersController {
     }
 
     @PatchMapping("{user-id}")
-    public ResponseEntity<Void> updateUserInfo(@RequestBody UserRequest request, @PathVariable("user-id") UUID userId) {
+    public ResponseEntity<User> updateUserInfo(@RequestBody UserRequest request, @PathVariable("user-id") UUID userId) {
         usersService.updateUserInfo(request.username(), request.email(), userId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(usersService.getUserById(userId));
     }
 }
 
