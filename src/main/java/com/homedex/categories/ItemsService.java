@@ -26,7 +26,7 @@ public class ItemsService {
 
     public Item createItem(String name, String measurement, String brand, String addInfo, LocalDateTime expiration, Long unit, UUID categoryId) {
         CategoryEntity entity = categoryDao.findById(categoryId).orElseThrow();
-        ItemEntity itemEntity = ItemEntity.builder().name(name).measurement(Measurement.valueOf(measurement.trim().toUpperCase())).brand(brand).addInfo(addInfo).expiration(expiration).categoryEntity(entity).unit(unit).build();
+        ItemEntity itemEntity = ItemEntity.builder().name(name).measurement(Measurement.valueOf(measurement.trim().toUpperCase())).brand(brand).addInfo(addInfo).expiration(expiration).categoryEntity(entity).unit(unit).liked(false).purchase(false).build();
         return mapToItem(itemDao.save(itemEntity));
     }
 
