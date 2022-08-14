@@ -30,11 +30,11 @@ public class HouseholdsService {
         this.itemDao = itemDao;
     }
 
-    public Household createHousehold(String name, UUID userId) {
+    public Household createHousehold(String name, String image, UUID userId) {
         UserEntity userEntity = userDao.findById(userId).orElseThrow();
         Set<UserEntity> userEntities = new HashSet<>();
         userEntities.add(userEntity);
-        HouseholdEntity householdEntity = householdDao.save(HouseholdEntity.builder().name(name).userEntities(userEntities).build());
+        HouseholdEntity householdEntity = householdDao.save(HouseholdEntity.builder().name(name).image(image).userEntities(userEntities).build());
         return mapToHousehold(householdEntity);
     }
 
@@ -49,16 +49,22 @@ public class HouseholdsService {
     }
 
     private Household mapToHousehold(HouseholdEntity entity) {
-        return new Household(entity.getId(), entity.getName());
+        return new Household(entity.getId(), entity.getName(), entity.getImage());
     }
 
     public void deleteHousehold(UUID householdId) {
         householdDao.deleteHouseholdEntityById(householdId);
     }
 
-    public void updateHouseholdName(String name, UUID householdId) {
+    public void updateHousehold(String name, String image, UUID householdId) {
         HouseholdEntity entity = householdDao.findById(householdId).orElseThrow();
-        entity.setName(name);
+        if (name != null) {
+            entity.setName(name);
+        }
+
+        if (image != null) {
+            entity.setImage(image);
+        }
         householdDao.save(entity);
     }
 

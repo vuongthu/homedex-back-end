@@ -22,6 +22,7 @@ public class HouseholdEntity implements Serializable {
     @GeneratedValue
     private UUID id;
     private String name;
+    private String image;
     @OneToMany
     @JoinColumn(name = "fk_households_id")
     @ToString.Exclude

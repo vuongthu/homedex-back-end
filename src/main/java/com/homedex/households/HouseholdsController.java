@@ -22,7 +22,7 @@ public class HouseholdsController {
 
     @PostMapping
     public ResponseEntity<Household> createHousehold(@RequestBody HouseholdRequest request, @RequestParam("user-id") UUID userId) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(householdsService.createHousehold(request.name(), userId));
+        return ResponseEntity.status(HttpStatus.CREATED).body(householdsService.createHousehold(request.name(), request.image(), userId));
     }
 
     @GetMapping
@@ -42,8 +42,8 @@ public class HouseholdsController {
     }
 
     @PatchMapping("{household-id}")
-    public ResponseEntity<Household> patchHouseholdName(@RequestBody HouseholdRequest request, @PathVariable("household-id") UUID householdId) {
-        householdsService.updateHouseholdName(request.name(), householdId);
+    public ResponseEntity<Household> patchHousehold(@RequestBody HouseholdRequest request, @PathVariable("household-id") UUID householdId) {
+        householdsService.updateHousehold(request.name(), request.image(), householdId);
         return ResponseEntity.status(HttpStatus.OK).body(householdsService.getHouseholdById(householdId));
     }
 

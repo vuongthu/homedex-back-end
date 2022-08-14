@@ -1,0 +1,1 @@
+alter table households add column image text;
