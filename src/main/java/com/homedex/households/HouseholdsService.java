@@ -53,7 +53,7 @@ public class HouseholdsService {
     }
 
     public void deleteHousehold(UUID householdId) {
-        householdDao.deleteById(householdId);
+        householdDao.deleteHouseholdEntityById(householdId);
     }
 
     public void updateHouseholdName(String name, UUID householdId) {

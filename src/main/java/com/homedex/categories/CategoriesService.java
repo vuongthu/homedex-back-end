@@ -43,7 +43,7 @@ public class CategoriesService {
     }
 
     public void deleteCategory(UUID categoryId) {
-        categoryDao.deleteById(categoryId);
+        categoryDao.deleteCategoryEntityById(categoryId);
     }
 
     public void updateCategoryName(String name, UUID categoryId) {
