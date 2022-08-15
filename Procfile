@@ -1,1 +1,1 @@
-web: java -Dserver.port=44580 $JAVA_OPTS -jar build/libs/homedex-0.0.1-SNAPSHOT.jar
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar build/libs/homedex-0.0.1-SNAPSHOT.jar
